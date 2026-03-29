@@ -1,25 +1,25 @@
 # MBA IA Challenge - Ingestion + Search (RAG)
 
-## Estrutura do projeto
+## Project structure
 
-- `backend/`: API FastAPI, ingestao do PDF e RAG.
-- `frontend/`: interface React com streaming da resposta.
-- `docker-compose.yml`: sobe banco, API e frontend.
+- `backend/`: FastAPI API, PDF ingestion, and RAG logic.
+- `frontend/`: React interface with streaming responses.
+- `docker-compose.yml`: starts database, API, and frontend.
 
-## Pre-requisitos
+## Requirements
 
 - Docker
 - Docker Compose
 
-## 1) Clonar e configurar ambiente
+## 1) Clone and configure environment
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone <REPOSITORY_URL>
 cd mba-ia-challenge-ingestion-search
 cp .env.example .env
 ```
 
-Opcional para desenvolvimento local sem Docker (Python):
+Optional for local development without Docker (Python):
 
 ```bash
 cd backend
@@ -27,50 +27,50 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-Edite o arquivo `.env` e configure no minimo:
+Edit `.env` and configure at least:
 
-- `OPENAI_API_KEY` = sua chave (nao versionar)
-- `OPENAI_CHAT_MODEL` = modelo de chat (ex.: `gpt-4o-mini`)
-- `OPENAI_EMBEDDING_MODEL` = modelo de embedding (ex.: `text-embedding-3-small`)
+- `OPENAI_API_KEY` = your key (do not commit it)
+- `OPENAI_CHAT_MODEL` = chat model (example: `gpt-4o-mini`)
+- `OPENAI_EMBEDDING_MODEL` = embedding model (example: `text-embedding-3-small`)
 
-Opcional/importante:
+Optional/important:
 
-- `AUTO_INGEST_ON_START='true'` para indexar automaticamente ao subir a API.
-- `DATABASE_URL_INTERNAL` ja vem configurada para Docker e nao precisa mudar no fluxo padrao.
+- `AUTO_INGEST_ON_START='true'` to run ingestion automatically when the API starts.
+- `DATABASE_URL_INTERNAL` is already set for Docker and usually does not need changes.
 
-## 2) Subir os servicos
+## 2) Start services
 
 ```bash
 docker compose up --build -d
 ```
 
-Servicos:
+Services:
 
 - Frontend: `http://localhost:5173`
 - API: `http://localhost:8000`
 - Postgres (pgvector): `localhost:5432`
 
-## 3) Ver logs
+## 3) View logs
 
 ```bash
 docker compose logs -f
 ```
 
-## 4) Ingestao manual (opcional)
+## 4) Manual ingestion (optional)
 
-Use quando `AUTO_INGEST_ON_START='false'` ou quando quiser reindexar manualmente:
+Use this when `AUTO_INGEST_ON_START='false'` or when you want to reindex manually:
 
 ```bash
 docker compose run --rm api python src/ingest.py
 ```
 
-## 5) Parar os servicos
+## 5) Stop services
 
 ```bash
 docker compose down
 ```
 
-## Seguranca
+## Security
 
-- Nao commitar `.env`.
-- Nao publicar `OPENAI_API_KEY` em README, codigo, issue ou commit.
+- Do not commit `.env`.
+- Do not expose `OPENAI_API_KEY` in README, code, issue, or commit.
